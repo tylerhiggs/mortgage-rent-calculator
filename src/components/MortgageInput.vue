@@ -32,7 +32,7 @@ const updateRate = (rate: number) => {
     <NumberInput
       label="Home Price"
       :value="mortgageStore.homeValue"
-      :min="0"
+      :min="mortgageStore.downPayment"
       @change="updateHomeValue"
       isDollar
     />

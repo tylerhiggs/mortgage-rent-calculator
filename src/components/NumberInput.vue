@@ -19,7 +19,7 @@
       <input
         ref="inputElement"
         :id="props.label"
-        :value="props.value.toLocaleString()"
+        :value="stringValue"
         @input="onUpdate"
         :min="props.min"
         :max="props.max"
@@ -31,11 +31,18 @@
         >%</i
       >
     </div>
+    <i v-if="currentNumericValue == undefined" class="text-pink-500">* Enter a valid number</i>
+    <i v-else-if="props.min && currentNumericValue < props.min" class="text-pink-500"
+      >* Enter a number greater than {{ props.min.toLocaleString() }}
+    </i>
+    <i v-else-if="props.max && currentNumericValue > props.max" class="text-pink-500"
+      >* Enter a number less than {{ props.max.toLocaleString() }}
+    </i>
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, ref } from 'vue'
+import { defineProps, defineEmits, ref, computed, watch } from 'vue'
 
 const inputElement = ref<HTMLDivElement>()
 
@@ -53,19 +60,39 @@ const emit = defineEmits<{
   change: [value: number]
 }>()
 
+watch(
+  () => props.value,
+  (value) => {
+    stringValue.value = value.toLocaleString()
+  }
+)
+
+const unformat = (s: string) => s.replace(/[, ]/gm, '')
+
+const stringValue = ref(props.value.toLocaleString())
+
+const currentNumericValue = computed(() => {
+  const unformatted = unformat(stringValue.value)
+  const num = Number(unformatted)
+  if (isNaN(num)) {
+    console.log(`Invalid number: ${unformatted}`)
+    return undefined
+  }
+  return num
+})
+
 const onUpdate = (event: Event) => {
   const target = event.target as HTMLInputElement
-  const num = Number(target.value)
+  const num = Number(unformat(target.value))
   if (isNaN(num)) {
-    target.value = String(props.value)
+    target.value = String(props.value.toLocaleString())
     return
   }
+  stringValue.value = target.value
   if (props.min !== undefined && num < props.min) {
-    target.value = String(props.min)
     return
   }
   if (props.max !== undefined && num > props.max) {
-    target.value = String(props.max)
     return
   }
   emit('change', num)
