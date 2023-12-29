@@ -5,11 +5,14 @@ import MortgageMonthlyAssetChange from './components/MortgageMonthlyAssetChange.
 </script>
 
 <template>
-  <main class="bg-gray-100 flex">
-    <MortgageInput />
-    <div class="flex flex-col">
-      <MortgageMonthlyPayments />
-      <MortgageMonthlyAssetChange />
+  <main class="bg-gray-100">
+    <h1 class="font-bold text-3xl p-4">🏡 Mortgage and Rent Calculator</h1>
+    <div class="flex">
+      <MortgageInput />
+      <div class="flex flex-col">
+        <MortgageMonthlyPayments />
+        <MortgageMonthlyAssetChange />
+      </div>
     </div>
   </main>
 </template>

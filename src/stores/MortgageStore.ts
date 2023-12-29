@@ -7,8 +7,6 @@ export enum Term {
 }
 
 const DEFAULT_HOME_VALUE = 200000;
-const PROPERTY_TAX_RATE = 0.000917;
-const PMI_RATE_INVERTED = 1200;
 
 export const useMortgageStore = defineStore('mortgage', () => {
     const homeValue = ref(DEFAULT_HOME_VALUE);
@@ -28,6 +26,15 @@ export const useMortgageStore = defineStore('mortgage', () => {
         }
         _downPayment.value = pct ? homeValue.value * pct : num || 0;
     }
+
+    /**
+     * Annual rate of property tax, as a decimal.
+     */
+    const propertyTaxRate = ref(0.011);
+    /**
+     * Annual PMI rate, as a decimal.
+     */
+    const pmiRate = ref(0.01);
 
     const monthlyPrincipalAndInterest = computed(() => {
         const p = principal.value;
@@ -50,17 +57,23 @@ export const useMortgageStore = defineStore('mortgage', () => {
     });
 
     const monthlyPropertyTax = computed(() => {
-        return homeValue.value * PROPERTY_TAX_RATE;
+        return homeValue.value * propertyTaxRate.value / 12;
     });
 
     const monthlyPMI = computed(() => {
-        return downPaymentPct.value < 0.2 ? principal.value / PMI_RATE_INVERTED : 0;
+        return downPaymentPct.value < 0.2 ? principal.value * pmiRate.value / 12 : 0;
     });
 
     const monthlyHomeInsurance = ref(125);
 
+    const monthlyHOA = ref(0);
+
     const monthlyPayment = computed(() => {
-        return monthlyPrincipalAndInterest.value + monthlyPropertyTax.value + monthlyPMI.value + monthlyHomeInsurance.value;
+        return monthlyPrincipalAndInterest.value
+            + monthlyPropertyTax.value
+            + monthlyPMI.value
+            + monthlyHomeInsurance.value
+            + monthlyHOA.value;
     });
 
     const monthlyAssetLoss = computed(() => {
@@ -72,6 +85,7 @@ export const useMortgageStore = defineStore('mortgage', () => {
         homeValue,
         rate,
         term,
+        propertyTaxRate,
         monthlyPrincipalAndInterest,
         monthlyPaymentFormatted,
         monthlyInterest,
@@ -81,6 +95,8 @@ export const useMortgageStore = defineStore('mortgage', () => {
         setDownPayment,
         monthlyPrincipal,
         monthlyPMI,
+        pmiRate,
+        monthlyHOA,
         monthlyHomeInsurance,
         monthlyPayment,
         monthlyAssetLoss,

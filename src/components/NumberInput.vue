@@ -30,6 +30,16 @@
         class="inline-flex items-end justify-end px-3 text-gray-500 text-md text-left font-bold"
         >%</i
       >
+      <i
+        v-if="props.isMonth"
+        class="inline-flex items-end justify-end px-2 text-gray-500 text-md text-left font-bold"
+        >/MONTH</i
+      >
+      <i
+        v-if="props.isYear"
+        class="inline-flex items-end justify-end px-2 text-gray-500 text-md text-left font-bold"
+        >/YEAR</i
+      >
     </div>
     <i v-if="currentNumericValue == undefined" class="text-pink-500">* Enter a valid number</i>
     <i v-else-if="props.min && currentNumericValue < props.min" class="text-pink-500"
@@ -54,6 +64,8 @@ const props = defineProps<{
   size?: 'sm' | 'md' | 'lg'
   isDollar?: boolean
   isPercent?: boolean
+  isMonth?: boolean
+  isYear?: boolean
 }>()
 
 const emit = defineEmits<{
