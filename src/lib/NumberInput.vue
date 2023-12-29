@@ -5,7 +5,10 @@
       width: props.size === 'sm' ? '6rem' : props.size === 'md' ? '9rem' : '12rem'
     }"
   >
-    <label :for="props.label" class="font-bold">{{ props.label }}</label>
+    <div class="flex items-center">
+      <label :for="props.label" class="font-bold mr-1 whitespace-nowrap">{{ props.label }}</label>
+      <InfoPopup v-if="props.info" :description="props.info" />
+    </div>
 
     <div
       class="cursor-pointer focus-within:border-emerald-400 bg-white flex justify-between w-full mt-1 rounded-md shadow-md focus:border-teal-300 sm:text-sm p-2 border"
@@ -53,6 +56,7 @@
 
 <script setup lang="ts">
 import { defineProps, defineEmits, ref, computed, watch } from 'vue'
+import InfoPopup from './InfoPopup.vue'
 
 const inputElement = ref<HTMLDivElement>()
 
@@ -66,6 +70,7 @@ const props = defineProps<{
   isPercent?: boolean
   isMonth?: boolean
   isYear?: boolean
+  info?: string
 }>()
 
 const emit = defineEmits<{

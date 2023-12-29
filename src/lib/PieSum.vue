@@ -65,7 +65,7 @@ const conicGradientString = computed(() => {
 </style>
 
 <template>
-  <div class="mt-2 flex">
+  <div class="mt-2 flex items-center">
     <div>
       <div class="font-bold">{{ props.title }}:</div>
       <div class="flex flex-col w-72 mr-4">

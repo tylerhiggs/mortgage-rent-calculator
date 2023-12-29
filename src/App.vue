@@ -48,9 +48,9 @@ const values = computed(() => {
 </script>
 
 <template>
-  <main class="bg-gray-100">
+  <main class="bg-gray-100 h-screen">
     <h1 class="font-bold text-3xl p-4">🏡 Mortgage and Rent Calculator</h1>
-    <div class="flex">
+    <div class="flex justify-around">
       <MortgageInput />
       <div class="flex flex-col">
         <PieSum title="Monthly" :values="values" />

@@ -1,6 +1,9 @@
 <template>
   <div class="w-36 m-2">
-    <label v-if="props.label" class="font-bold mb-1">{{ props.label }}</label>
+    <div class="flex items-center">
+      <label v-if="props.label" class="font-bold mb-1 mr-1">{{ props.label }}</label>
+      <InfoPopup v-if="props.info" :description="props.info" />
+    </div>
     <Listbox :value="props.value">
       <div class="relative mt-1 cursor-pointer">
         <ListboxButton
@@ -55,12 +58,13 @@
 <script setup lang="ts" generic="T extends { id: string; name: string }">
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
-import { defineProps, defineEmits } from 'vue'
+import InfoPopup from './InfoPopup.vue'
 
 const props = defineProps<{
   options: Array<T>
   value: T
   label?: string
+  info?: string
 }>()
 
 const emit = defineEmits<{
