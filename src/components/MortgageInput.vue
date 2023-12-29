@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import DropdownList from './DropdownList.vue'
-import NumberInput from './NumberInput.vue'
+import DropdownList from '@/lib/DropdownList.vue'
+import NumberInput from '@/lib/NumberInput.vue'
 import { useMortgageStore, Term } from '@/stores/MortgageStore'
 import { computed, ref } from 'vue'
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/20/solid'
