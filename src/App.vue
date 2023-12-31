@@ -48,13 +48,18 @@ const values = computed(() => {
 </script>
 
 <template>
-  <main class="bg-gray-100 h-screen">
+  <main class="bg-emerald-200 h-screen">
     <h1 class="font-bold text-3xl p-4">🏡 Mortgage and Rent Calculator</h1>
-    <div class="flex justify-around">
-      <MortgageInput />
-      <div class="flex flex-col">
-        <PieSum title="Monthly" :values="values" />
-        <PieSum title="Asset Loss" :values="baseValues" />
+    <div class="flex flex-col items-center">
+      <div class="w-8/12 flex flex-col items-center bg-slate-100 rounded-2xl p-4">
+        <h2 class="font-bold text-2xl">Monthly Mortgage Breakdown</h2>
+        <div class="flex justify-around">
+          <MortgageInput />
+          <div class="flex flex-col">
+            <PieSum title="Monthly" :values="values" />
+            <PieSum title="Asset Loss" :values="baseValues" />
+          </div>
+        </div>
       </div>
     </div>
   </main>
