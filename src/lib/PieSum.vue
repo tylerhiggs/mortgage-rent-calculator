@@ -1,13 +1,17 @@
 <script setup lang="ts">
 import { defineProps, computed } from 'vue'
+import InfoPopup from './InfoPopup.vue'
 
 const props = defineProps<{
   title: string
+  pieTitle?: string
   values: Array<{
     name: string
     value: number
     color: string
+    info?: string
   }>
+  info?: string
 }>()
 
 const total = computed(() => {
@@ -45,8 +49,8 @@ const conicGradientString = computed(() => {
 
 <style scoped>
 .pie-chart {
-  width: 200px;
-  height: 200px;
+  width: 250px;
+  height: 250px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -57,8 +61,8 @@ const conicGradientString = computed(() => {
 .pie-chart::after {
   content: '';
   position: absolute;
-  height: 160px;
-  width: 160px;
+  height: 200px;
+  width: 200px;
   border-radius: 50%;
   background-color: #ffffff;
 }
@@ -67,28 +71,36 @@ const conicGradientString = computed(() => {
 <template>
   <div class="mt-2 flex items-center">
     <div>
-      <div class="font-bold">{{ props.title }}:</div>
-      <div class="flex flex-col w-72 mr-4">
+      <div class="font-bold flex items-center">
+        {{ props.title }}:
+        <InfoPopup v-if="props.info" :description="props.info" class="mx-1" />
+      </div>
+      <div class="flex flex-col w-80 mr-4">
         <div
           v-for="value in props.values.filter((value) => value.value > 0)"
           :key="value.name"
-          class="flex items-center justify-between w-full"
+          class="flex items-center justify-between w-full my-1 py-1 rounded-lg text-white px-2 group"
+          :style="{ backgroundColor: value.color }"
         >
-          <div class="flex items-center">
-            <div :style="{ backgroundColor: value.color }" class="mr-3 h-5 w-5 rounded-full" />
-            {{ value.name }}:
+          <div class="flex items-center w-52">
+            <p>{{ value.name }}:</p>
+            <InfoPopup
+              class="ml-1 group-hover:visible invisible"
+              v-if="value.info"
+              :description="value.info"
+            />
           </div>
-          <div>${{ value.value.toFixed(0) }}</div>
+          <div>${{ Math.round(value.value).toLocaleString() }}</div>
         </div>
       </div>
       +
       <hr class="w-72" />
-      <div class="font-bold">${{ total.toFixed(0) }}</div>
+      <div class="font-bold">${{ Math.round(total).toLocaleString() }}</div>
     </div>
     <div class="pie-chart">
       <div class="z-10 font-bold flex flex-col justify-center items-center">
-        <div class="text-xl">{{ props.title }}</div>
-        <div class="text-3xl">${{ total.toFixed(0) }}</div>
+        <div class="text-lg">{{ props?.pieTitle || props.title }}</div>
+        <div class="text-2xl">${{ Math.round(total).toLocaleString() }}</div>
       </div>
     </div>
   </div>

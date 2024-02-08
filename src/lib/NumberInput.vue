@@ -5,7 +5,7 @@
       width: props.size === 'sm' ? '6rem' : props.size === 'md' ? '9rem' : '12rem'
     }"
   >
-    <div class="flex items-center">
+    <div class="flex items-center flex-wrap">
       <label :for="props.label" class="font-bold mr-1 whitespace-nowrap">{{ props.label }}</label>
       <InfoPopup v-if="props.info" :description="props.info" />
     </div>
@@ -22,11 +22,12 @@
       <input
         ref="inputElement"
         :id="props.label"
-        :value="stringValue"
+        :value="props.disabled ? '' : stringValue"
         @input="onUpdate"
         :min="props.min"
         :max="props.max"
-        class="w-full bg-transparent focus:outline-none focus:ring-0"
+        class="w-full bg-transparent focus:outline-none focus:ring-0 disabled:cursor-default disabled:opacity-50"
+        :disabled="props.disabled"
       />
       <i
         v-if="props.isPercent"
@@ -44,7 +45,7 @@
         >/YEAR</i
       >
     </div>
-    <i v-if="currentNumericValue == undefined" class="text-pink-500">* Enter a valid number</i>
+    <i v-if="currentNumericValue === undefined" class="text-pink-500">* Enter a valid number</i>
     <i v-else-if="props.min && currentNumericValue < props.min" class="text-pink-500"
       >* Enter a number greater than {{ props.min.toLocaleString() }}
     </i>
@@ -63,6 +64,7 @@ const inputElement = ref<HTMLDivElement>()
 const props = defineProps<{
   value: number
   label?: string
+  disabled?: boolean
   min?: number
   max?: number
   size?: 'sm' | 'md' | 'lg'

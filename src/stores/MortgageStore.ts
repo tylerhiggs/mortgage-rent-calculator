@@ -13,7 +13,7 @@ export const useMortgageStore = defineStore('mortgage', () => {
     /**
      * The interest rate, as a decimal.
      */
-    const rate = ref(0.065);
+    const rate = ref(0.05);
     const term = ref(Term.Fifteen);
     const _downPayment = ref(DEFAULT_HOME_VALUE * 0.2);
     const principal = computed(() => homeValue.value - _downPayment.value);

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import MortgageInput from './components/MortgageInput.vue'
 import PieSum from '@/lib/PieSum.vue'
+import RetirementSummary from './components/RetirementSummary.vue'
 import { useMortgageStore } from '@/stores/MortgageStore'
 import { computed } from 'vue'
 import { emerald, amber, fuchsia, rose, indigo, purple } from 'tailwindcss/colors'
@@ -48,19 +49,28 @@ const values = computed(() => {
 </script>
 
 <template>
-  <main class="bg-emerald-200 h-screen">
+  <main class="bg-emerald-200 h-full">
     <h1 class="font-bold text-3xl p-4">🏡 Mortgage and Rent Calculator</h1>
     <div class="flex flex-col items-center">
       <div class="w-8/12 flex flex-col items-center bg-slate-100 rounded-2xl p-4">
         <h2 class="font-bold text-2xl">Monthly Mortgage Breakdown</h2>
-        <div class="flex justify-around">
+        <div class="flex justify-around w-full">
           <MortgageInput />
           <div class="flex flex-col">
-            <PieSum title="Monthly" :values="values" />
-            <PieSum title="Asset Loss" :values="baseValues" />
+            <PieSum
+              title="Monthly"
+              :values="values"
+              info="This is your total monthly payment for the duration of the mortgage."
+            />
+            <PieSum
+              title="Asset Loss"
+              :values="baseValues"
+              info="This is how much your total net worth goes down per month due to mortgage payments. Notice it is less than the monthly payment because you are building equity in your home."
+            />
           </div>
         </div>
       </div>
+      <RetirementSummary class="mt-4" />
     </div>
   </main>
 </template>
