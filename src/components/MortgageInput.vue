@@ -35,7 +35,7 @@ const toggleExpanded = () => {
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col w-full">
     <NumberInput
       label="Home Price"
       :value="mortgageStore.homeValue"
@@ -54,7 +54,7 @@ const toggleExpanded = () => {
       isPercent
       info="The annual percentage rate (APR) of your mortgage. This is the interest rate you will pay on your mortgage."
     />
-    <div class="grid grid-rows-1 grid-cols-2 w-72 gap-4">
+    <div class="grid grid-rows-1 grid-cols-1 sm:grid-cols-2 w-full sm:w-72 gap-4">
       <NumberInput
         label="Down Payment"
         size="md"
@@ -87,7 +87,7 @@ const toggleExpanded = () => {
       <ChevronDownIcon v-else class="h-5 w-5 text-emerald-500" aria-hidden="true" />
     </button>
     <div v-if="isExpanded">
-      <div class="grid grid-rows-1 grid-cols-2 w-72 gap-4">
+      <div class="grid grid-rows-1 grid-cols-1 sm:grid-cols-2 w-72 gap-4">
         <NumberInput
           size="md"
           label="PMI"
@@ -109,7 +109,7 @@ const toggleExpanded = () => {
           isPercent
         />
       </div>
-      <div class="grid grid-rows-1 grid-cols-2 w-72 gap-4">
+      <div class="grid grid-rows-1 grid-cols-1 sm:grid-cols-2 w-72 gap-4">
         <NumberInput
           size="md"
           label="Property Tax"

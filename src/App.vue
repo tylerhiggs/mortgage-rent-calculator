@@ -56,7 +56,9 @@ const values = computed(() => {
 
 <template>
   <main class="bg-slate-100 xl:bg-emerald-200 xl:dark:bg-slate-700 dark:bg-slate-700 h-full">
-    <h1 class="font-bold text-3xl p-4 dark:text-slate-100">🏡 Mortgage and Rent Calculator</h1>
+    <h1 class="font-bold text-3xl p-4 dark:text-slate-100">
+      🏡 Mortgage and Rent Retirement Calculator
+    </h1>
     <div class="flex flex-col items-center">
       <div
         class="w-full xl:w-8/12 flex flex-col items-center bg-slate-100 dark:bg-slate-800 dark:text-slate-100 rounded-2xl p-4"

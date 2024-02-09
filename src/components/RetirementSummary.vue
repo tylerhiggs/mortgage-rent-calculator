@@ -76,8 +76,8 @@ const rentRetirementPercentages = computed(() => [
   >
     <h2 class="font-bold text-2xl">Retirement Breakdown</h2>
     <div class="flex lg:flex-row flex-col lg:justify-around items-center w-full">
-      <div class="flex flex-col">
-        <div class="flex">
+      <div class="flex flex-col w-full">
+        <div class="flex sm:flex-row flex-col">
           <NumberInput
             size="sm"
             label="Current Age"

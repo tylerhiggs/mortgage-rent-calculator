@@ -1,9 +1,13 @@
 <template>
   <div
     class="flex flex-col m-2 justify-end relative"
-    :style="{
-      width: props.size === 'sm' ? '6rem' : props.size === 'md' ? '9rem' : '12rem'
-    }"
+    :class="[
+      props.size === 'sm'
+        ? 'w-full sm:w-24'
+        : props.size === 'md'
+          ? 'w-full sm:w-36'
+          : 'w-full sm:w-48'
+    ]"
   >
     <div class="flex items-center flex-wrap">
       <label :for="props.label" class="font-bold mr-1 whitespace-nowrap">{{ props.label }}</label>

@@ -1,5 +1,5 @@
 <template>
-  <div class="w-36 m-2">
+  <div class="w-full sm:w-36 m-2">
     <div class="flex items-center">
       <label v-if="props.label" class="font-bold mb-1 mr-1">{{ props.label }}</label>
       <InfoPopup v-if="props.info" :description="props.info" />
@@ -21,7 +21,7 @@
           leave-to-class="opacity-0"
         >
           <ListboxOptions
-            class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-slate-700 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+            class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-slate-700 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm z-50"
           >
             <ListboxOption
               v-slot="{ active, selected }"
