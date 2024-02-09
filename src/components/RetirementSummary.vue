@@ -26,22 +26,25 @@ const homeRetirementPercentages = computed(() => [
     name: 'Current Savings',
     value: retirementIraValueHome.value.fromInitial,
     color: emerald['300'],
-    info: 'The amount you currently have saved for retirement (do not include savings for a potential down payment; we account for that in our retirement calculations).'
+    info: 'The amount you currently have saved for retirement. This does not include any of the amount you would use for the down payment.'
   },
   {
     name: 'Home Appreciation',
     value: retirementHomeValue.value,
-    color: amber['300']
+    color: amber['300'],
+    info: 'This is the amount you would have made if you sold your home at retirement.'
   },
   {
     name: 'IRA Contributions',
     value: retirementIraValueHome.value.fromContributions,
-    color: fuchsia['300']
+    color: fuchsia['300'],
+    info: 'This is the portion of your retirement savings that comes from your monthly IRA contributions and their growth.'
   },
   {
     name: 'Additional Contributions (After Mortgage)',
     value: retirementIraValueHome.value.fromAfterMortgagePayments,
-    color: indigo['300']
+    color: indigo['300'],
+    info: 'This assumes that you continue to contribute the amount you were paying for your mortgage after it is paid off in addition to your monthly IRA contributions.'
   }
 ])
 
@@ -49,7 +52,8 @@ const rentRetirementPercentages = computed(() => [
   {
     name: 'Current Savings',
     value: retirementIraValueRent.value.fromRegularSavings,
-    color: emerald['300']
+    color: emerald['300'],
+    info: 'The amount you currently have saved for retirement. This does not include any of the amount you would use for the down payment.'
   },
   {
     name: 'Down Payment Savings',
@@ -60,15 +64,18 @@ const rentRetirementPercentages = computed(() => [
   {
     name: 'IRA Contributions',
     value: retirementIraValueRent.value.fromContributions,
-    color: fuchsia['300']
+    color: fuchsia['300'],
+    info: 'This is the portion of your retirement savings that comes from your monthly IRA contributions and their growth.'
   }
 ])
 </script>
 
 <template>
-  <div class="w-8/12 flex flex-col items-center bg-slate-100 rounded-2xl p-4">
+  <div
+    class="xl:w-8/12 w-full flex flex-col items-center bg-slate-100 dark:bg-slate-800 dark:text-slate-100 rounded-2xl p-4"
+  >
     <h2 class="font-bold text-2xl">Retirement Breakdown</h2>
-    <div class="flex justify-around w-full">
+    <div class="flex lg:flex-row flex-col lg:justify-around items-center w-full">
       <div class="flex flex-col">
         <div class="flex">
           <NumberInput
@@ -112,7 +119,7 @@ const rentRetirementPercentages = computed(() => [
           :min="0"
           @change="(value: number) => (currentSavings = value)"
           isDollar
-          info="The amount you currently have saved for retirement."
+          info="The amount you currently have saved for retirement. Do not include any of the amount you would use for the down paymen (we already account for that in our calculations)."
         />
         <div class="flex">
           <NumberInput
@@ -135,7 +142,7 @@ const rentRetirementPercentages = computed(() => [
           info="The annual appreciation of your home. Historically, this is somewhere between 3 and 5 percent."
         />
       </div>
-      <div class="flex flex-col mt-4">
+      <div class="flex flex-col mt-4 w-full sm:w-auto">
         <h3 class="font-bold text-xl">Retirement Assets if you...</h3>
         <PieSum
           title="Purchase a Home"

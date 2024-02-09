@@ -57,25 +57,16 @@ const conicGradientString = computed(() => {
   border-radius: 50%;
   background: conic-gradient(v-bind(conicGradientString));
 }
-
-.pie-chart::after {
-  content: '';
-  position: absolute;
-  height: 200px;
-  width: 200px;
-  border-radius: 50%;
-  background-color: #ffffff;
-}
 </style>
 
 <template>
-  <div class="mt-2 flex items-center">
-    <div>
+  <div class="mt-2 flex items-center sm:flex-row flex-col">
+    <div class="w-full sm:w-auto">
       <div class="font-bold flex items-center">
         {{ props.title }}:
         <InfoPopup v-if="props.info" :description="props.info" class="mx-1" />
       </div>
-      <div class="flex flex-col w-80 mr-4">
+      <div class="flex flex-col sm:w-80 w-full mr-4">
         <div
           v-for="value in props.values.filter((value) => value.value > 0)"
           :key="value.name"
@@ -85,7 +76,7 @@ const conicGradientString = computed(() => {
           <div class="flex items-center w-52">
             <p>{{ value.name }}:</p>
             <InfoPopup
-              class="ml-1 group-hover:visible invisible"
+              class="ml-1 group-hover:visible sm:invisible"
               v-if="value.info"
               :description="value.info"
             />
@@ -102,6 +93,7 @@ const conicGradientString = computed(() => {
         <div class="text-lg">{{ props?.pieTitle || props.title }}</div>
         <div class="text-2xl">${{ Math.round(total).toLocaleString() }}</div>
       </div>
+      <div class="absolute h-[200px] w-[200px] rounded-full bg-slate-100 dark:bg-slate-800" />
     </div>
   </div>
 </template>

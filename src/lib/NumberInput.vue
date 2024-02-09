@@ -11,7 +11,7 @@
     </div>
 
     <div
-      class="cursor-pointer focus-within:border-emerald-400 bg-white flex justify-between w-full mt-1 rounded-md shadow-md focus:border-teal-300 sm:text-sm p-2 border"
+      class="cursor-pointer focus-within:border-emerald-400 bg-white dark:bg-slate-700 flex justify-between w-full mt-1 rounded-md shadow-md focus:border-teal-300 sm:text-sm p-2 border dark:border-slate-500"
       @click="() => inputElement?.focus()"
     >
       <i
