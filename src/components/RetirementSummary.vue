@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import NumberInput from '@/lib/NumberInput.vue'
 import { useRetirement } from '@/composables/Retirement'
+import { useMortgageStore } from '@/stores/MortgageStore'
 import PieSum from '@/lib/PieSum.vue'
 import { emerald, amber, fuchsia, indigo } from 'tailwindcss/colors'
 import { computed } from 'vue'
@@ -21,30 +22,52 @@ const {
   isMortgagePaidBeforeRetirement
 } = useRetirement()
 
+const mortgageStore = useMortgageStore()
+
 const homeRetirementPercentages = computed(() => [
   {
     name: 'Current Savings',
     value: retirementIraValueHome.value.fromInitial,
     color: emerald['300'],
-    info: 'The amount you currently have saved for retirement. This does not include any of the amount you would use for the down payment.'
+    info: `The amount you currently have saved for retirement that has grown for ${
+      retirementAge.value - currentAge.value
+    } years by your retirement age (${retirementAge.value}) at a rate of ${
+      interestRate.value * 100
+    }%. This does not include any of the amount you would use for a down payment.`
   },
   {
     name: 'Home Appreciation',
     value: retirementHomeValue.value,
     color: amber['300'],
-    info: 'This is the amount you would have made if you sold your home at retirement.'
+    info: `The value of your home at your retirement age (${retirementAge.value}) after ${
+      retirementAge.value - currentAge.value
+    } years of appreciation at a rate of ${annualHomeAppreciation.value * 100}%.`
   },
   {
     name: 'IRA Contributions',
     value: retirementIraValueHome.value.fromContributions,
     color: fuchsia['300'],
-    info: 'This is the portion of your retirement savings that comes from your monthly IRA contributions and their growth.'
+    info: `This is the portion of your retirement savings that comes from your monthly IRA contributions of $${
+      monthlyContribution.value
+    }${
+      rentIsHigherThanMortgage.value
+        ? ` + $${(rent.value - mortgageStore.monthlyPayment).toFixed(
+            0
+          )} (how much you save by renting instead of buying)`
+        : ''
+    } growing at a rate of ${interestRate.value * 100}% until your retirement age (${
+      retirementAge.value
+    }).`
   },
   {
     name: 'Additional Contributions (After Mortgage)',
     value: retirementIraValueHome.value.fromAfterMortgagePayments,
     color: indigo['300'],
-    info: 'This assumes that you continue to contribute the amount you were paying for your mortgage after it is paid off in addition to your monthly IRA contributions.'
+    info: `This is the portion of your retirement savings that comes from putting extra money into your IRA after your mortgage is paid off. This is the amount you were paying for your mortgage (${
+      retirementIraValueHome.value.fromAfterMortgagePayments
+    }) growing at a rate of ${interestRate.value * 100}% until your retirement age (${
+      retirementAge.value
+    }).`
   }
 ])
 
@@ -53,26 +76,44 @@ const rentRetirementPercentages = computed(() => [
     name: 'Current Savings',
     value: retirementIraValueRent.value.fromRegularSavings,
     color: emerald['300'],
-    info: 'The amount you currently have saved for retirement. This does not include any of the amount you would use for the down payment.'
+    info: `The amount you currently have saved for retirement that has grown for ${
+      retirementAge.value - currentAge.value
+    } years by your retirement age (${retirementAge.value}) at a rate of ${
+      interestRate.value * 100
+    }%. This does not include any of the amount you would have used for a down payment.`
   },
   {
     name: 'Down Payment Savings',
     value: retirementIraValueRent.value.fromWouldHaveBeenDownPayment,
     color: amber['300'],
-    info: 'The amount you would have saved for a down payment if you had purchased a home. You invest it instead and we see how much it adds to your future retirement funds.'
+    info: `If you choose to rent instead of buy, you can invest the amount you would have used for a down payment (${
+      retirementIraValueRent.value.fromWouldHaveBeenDownPayment
+    }) in your IRA. This amount grows at a rate of ${
+      interestRate.value * 100
+    }% until your retirement age (${retirementAge.value}).`
   },
   {
     name: 'IRA Contributions',
     value: retirementIraValueRent.value.fromContributions,
     color: fuchsia['300'],
-    info: 'This is the portion of your retirement savings that comes from your monthly IRA contributions and their growth.'
+    info: `This is the portion of your retirement savings that comes from your monthly IRA contributions of $${
+      monthlyContribution.value
+    }${
+      mortgageIsHigherThanRent.value
+        ? ` + $${(mortgageStore.monthlyPayment - rent.value).toFixed(
+            0
+          )} (how much you save by renting instead of buying)`
+        : ''
+    } growing at a rate of ${interestRate.value * 100}% until your retirement age (${
+      retirementAge.value
+    }).`
   }
 ])
 </script>
 
 <template>
   <div
-    class="xl:w-8/12 w-full flex flex-col items-center bg-slate-100 dark:bg-slate-800 dark:text-slate-100 rounded-2xl p-4"
+    class="2xl:w-8/12 w-full flex flex-col items-center bg-slate-100 dark:bg-slate-800 dark:text-slate-100 rounded-2xl p-4"
   >
     <h2 class="font-bold text-2xl">Retirement Breakdown</h2>
     <div class="flex lg:flex-row flex-col lg:justify-around items-center w-full">
@@ -121,16 +162,14 @@ const rentRetirementPercentages = computed(() => [
           isDollar
           info="The amount you currently have saved for retirement. Do not include any of the amount you would use for the down paymen (we already account for that in our calculations)."
         />
-        <div class="flex">
-          <NumberInput
-            label="Rent"
-            :value="rent"
-            :min="0"
-            @change="(value: number) => (rent = value)"
-            isDollar
-            info="The amount you will pay in rent each month."
-          />
-        </div>
+        <NumberInput
+          label="Rent"
+          :value="rent"
+          :min="0"
+          @change="(value: number) => (rent = value)"
+          isDollar
+          info="The amount you will pay in rent each month."
+        />
         <NumberInput
           label="Annual Home Appreciation"
           size="sm"

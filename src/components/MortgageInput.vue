@@ -98,6 +98,7 @@ const toggleExpanded = () => {
           "
           isDollar
           isMonth
+          v-if="mortgageStore.downPaymentPct < 0.2"
           info="Private Mortgage Insurance (PMI) is required if your down payment is less than 20% of the home price. This does not insure your home, but rather insures the lender in case you default on your loan. This is why you should try to avoid a down payment of less than 20%."
         />
         <NumberInput
@@ -107,6 +108,7 @@ const toggleExpanded = () => {
           :max="100"
           @change="(pct: number) => (mortgageStore.pmiRate = pct / 100)"
           isPercent
+          v-if="mortgageStore.downPaymentPct < 0.2"
         />
       </div>
       <div class="grid grid-rows-1 grid-cols-1 sm:grid-cols-2 w-72 gap-4">
