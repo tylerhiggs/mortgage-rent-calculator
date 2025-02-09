@@ -10,7 +10,7 @@
     ]"
   >
     <div class="flex items-center flex-wrap">
-      <label :for="props.label" class="font-bold mr-1 whitespace-nowrap">{{ props.label }}</label>
+      <label :for="id" class="font-bold mr-1 whitespace-nowrap">{{ props.label }}</label>
       <InfoPopup v-if="props.info" :description="props.info" />
     </div>
 
@@ -25,7 +25,7 @@
       >
       <input
         ref="inputElement"
-        :id="props.label"
+        :id="id"
         :value="props.disabled ? '' : stringValue"
         @input="onUpdate"
         :min="props.min"
@@ -89,6 +89,8 @@ watch(
     stringValue.value = value.toLocaleString()
   }
 )
+
+const id = Math.random().toString(36).substring(2, 9)
 
 const unformat = (s: string) => s.replace(/[, ]/gm, '')
 

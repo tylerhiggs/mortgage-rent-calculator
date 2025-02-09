@@ -55,11 +55,13 @@ const values = computed(() => {
 </script>
 
 <template>
-  <main class="bg-slate-100 2xl:bg-emerald-200 2xl:dark:bg-slate-700 dark:bg-slate-700 h-full">
-    <h1 class="font-bold text-3xl p-4 text-stone-700 dark:text-slate-100 w-full 2xl:w-8/12">
-      🏡 Mortgage & Rent Retirement Calculator
-    </h1>
+  <main
+    class="bg-slate-100 2xl:bg-gradient-to-bl 2xl:from-fuchsia-400 2xl:via-cyan-500 2xl:to-emerald-400 2xl:dark:bg-slate-700 dark:bg-slate-700 h-full"
+  >
     <div class="flex flex-col items-center">
+      <h1 class="font-bold text-3xl py-4 text-white dark:text-slate-100 w-full 2xl:w-8/12">
+        🏡 Mortgage & Rent Retirement Calculator
+      </h1>
       <div
         class="w-full 2xl:w-8/12 flex flex-col items-center bg-slate-100 dark:bg-slate-800 dark:text-slate-100 rounded-2xl p-4"
       >

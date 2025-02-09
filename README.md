@@ -98,3 +98,15 @@ We can express this in terms of monthly contributions as well:
 $$\text{Future IRA Value} = P_I (1 + r)^n +  \frac{x((1 + r/12)^{12n} - 1)}{r/12} | r \neq 0$$
 
 Where $x$ is the monthly contribution, $r$ is the annual interest rate, and $n$ is the number of years.
+
+### Rent Increase
+
+We can calculate how our future IRA value will decrease if we account for the cost of rent increase. Each rent increase will result in a decrease of monthly contribution. We can calculate the IRA value at retirement, then subtract each portion of the rent payment that was more than the original rent, as well as how much that amount would have grown in the IRA. To make the calculations easier, we will assume the rent increases by $y$ percent each month. We can calculate the future value of the IRA with rent increase as follows:
+
+$$\text{Future IRA Value} = P_I (1 + r)^n +  \frac{x((1 + r/12)^{12n} - 1)}{r/12} - y$$
+
+where $y$ is the opportunity cost from rent increases.
+
+$$y = \sum_{i=0}^{n-1} (1 + r/12)^{12n} - \sum_{i=0}^{n-1} r_0^i - r_0^n$$
+
+Where $r_{\text{rent}}$ is the annual rent increase rate and $r_0$ is the initial rent.

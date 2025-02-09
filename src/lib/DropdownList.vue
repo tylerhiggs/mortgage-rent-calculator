@@ -4,9 +4,10 @@
       <label v-if="props.label" class="font-bold mb-1 mr-1">{{ props.label }}</label>
       <InfoPopup v-if="props.info" :description="props.info" />
     </div>
-    <Listbox :value="props.value">
+    <Listbox :value="props.value" @update:model-value="onUpdate">
       <div class="relative mt-1 cursor-pointer">
         <ListboxButton
+          tabindex="0"
           class="relative w-full cursor-pointer rounded-lg bg-white dark:bg-slate-700 py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
         >
           <span class="block truncate">{{ props.value.name }}</span>
@@ -29,7 +30,6 @@
               :key="option.id"
               :value="option"
               as="template"
-              @click="onUpdate(option)"
             >
               <li
                 :class="[
