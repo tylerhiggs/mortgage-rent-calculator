@@ -12,16 +12,16 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@headlessui/vue": "^1.7.16",
-    "@heroicons/vue": "^2.0.18",
-    "pinia": "^2.1.7",
-    "vue": "^3.3.4"
+    "@headlessui/vue": "latest",
+    "@heroicons/vue": "latest",
+    "pinia": "latest",
+    "vue": "latest"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.3.3",
     "@tsconfig/node18": "^18.2.2",
     "@types/node": "^18.18.5",
-    "@vitejs/plugin-vue": "^4.4.0",
+    "@vitejs/plugin-vue": "^5.2.3",
     "@vue/eslint-config-prettier": "^8.0.0",
     "@vue/eslint-config-typescript": "^12.0.0",
     "@vue/tsconfig": "^0.4.0",
@@ -33,7 +33,7 @@
     "prettier": "^3.0.3",
     "tailwindcss": "^3.3.5",
     "typescript": "~5.2.0",
-    "vite": "^4.4.11",
-    "vue-tsc": "^1.8.19"
+    "vite": "^6.3.5",
+    "vue-tsc": "^2.2.10"
   }
 }
