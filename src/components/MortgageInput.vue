@@ -2,8 +2,9 @@
 import DropdownList from '@/lib/DropdownList.vue'
 import NumberInput from '@/lib/NumberInput.vue'
 import { useMortgageStore, Term } from '@/stores/MortgageStore'
-import { computed, ref } from 'vue'
+import { computed, shallowRef } from 'vue'
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/20/solid'
+
 const mortgageStore = useMortgageStore()
 
 const termOptions = [
@@ -11,7 +12,7 @@ const termOptions = [
   { id: '30', name: '30 years', value: Term.Thirty }
 ]
 
-const isExpanded = ref(false)
+const isExpanded = shallowRef(false)
 
 const selectedTerm = computed(() => {
   return termOptions.find((option) => option.value === mortgageStore.term) || termOptions[0]
@@ -48,7 +49,7 @@ const toggleExpanded = () => {
       label="Mortgage Rate (APR)"
       size="sm"
       :value="mortgageStore.rate * 100"
-      :min="0.001"
+      :min="0"
       :max="100"
       @change="updateRate"
       isPercent
@@ -106,7 +107,7 @@ const toggleExpanded = () => {
           :value="mortgageStore.pmiRate * 100"
           :min="0"
           :max="100"
-          @change="(pct: number) => (mortgageStore.pmiRate = pct / 100)"
+          @change="(pct) => (mortgageStore.pmiRate = pct / 100)"
           isPercent
           v-if="mortgageStore.downPaymentPct < 0.2"
         />
@@ -129,16 +130,16 @@ const toggleExpanded = () => {
           :value="mortgageStore.propertyTaxRate * 100"
           :min="0"
           :max="100"
-          @change="(pct: number) => (mortgageStore.propertyTaxRate = pct / 100)"
+          @change="(pct) => (mortgageStore.propertyTaxRate = pct / 100)"
           isPercent
         />
       </div>
       <NumberInput
         size="lg"
         label="Home Insurance"
-        :value="mortgageStore.monthlyHomeInsurance"
+        v-model:value="mortgageStore.monthlyHomeInsurance"
         :min="0"
-        @change="(dollars: number) => (mortgageStore.monthlyHomeInsurance = dollars)"
+        @change="(dollars) => (mortgageStore.monthlyHomeInsurance = dollars)"
         isDollar
         isMonth
         info="Home insurance is required by your lender. This insures your home in case of damage or theft."
@@ -148,7 +149,7 @@ const toggleExpanded = () => {
         label="HOA"
         :value="mortgageStore.monthlyHOA"
         :min="0"
-        @change="(dollars: number) => (mortgageStore.monthlyHOA = dollars)"
+        @change="(dollars) => (mortgageStore.monthlyHOA = dollars)"
         isDollar
         isMonth
         info="Homeowners Association (HOA) fees are required if you live in a community with an HOA. These fees are used to maintain the community."

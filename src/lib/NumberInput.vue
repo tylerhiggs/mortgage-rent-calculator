@@ -60,10 +60,10 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, ref, computed, watch } from 'vue'
+import { computed, watch, useTemplateRef, shallowRef } from 'vue'
 import InfoPopup from './InfoPopup.vue'
 
-const inputElement = ref<HTMLDivElement>()
+const inputElement = useTemplateRef('inputElement')
 
 const props = defineProps<{
   value: number
@@ -79,9 +79,7 @@ const props = defineProps<{
   info?: string
 }>()
 
-const emit = defineEmits<{
-  change: [value: number]
-}>()
+const emit = defineEmits<{ change: [value: number] }>()
 
 watch(
   () => props.value,
@@ -94,7 +92,7 @@ const id = Math.random().toString(36).substring(2, 9)
 
 const unformat = (s: string) => s.replace(/[, ]/gm, '')
 
-const stringValue = ref(props.value.toLocaleString())
+const stringValue = shallowRef(props.value.toLocaleString())
 
 const currentNumericValue = computed(() => {
   const unformatted = unformat(stringValue.value)

@@ -3,8 +3,8 @@ import MortgageInput from './components/MortgageInput.vue'
 import PieSum from '@/lib/PieSum.vue'
 import RetirementSummary from './components/RetirementSummary.vue'
 import { useMortgageStore } from '@/stores/MortgageStore'
-import { computed } from 'vue'
 import { emerald, amber, fuchsia, rose, indigo, purple } from 'tailwindcss/colors'
+import { computed } from 'vue'
 
 const mortgageStore = useMortgageStore()
 
@@ -41,24 +41,22 @@ const baseValues = computed(() => [
   }
 ])
 
-const values = computed(() => {
-  return [
-    {
-      name: 'Principal',
-      value: mortgageStore.monthlyPrincipal,
-      color: emerald['400'],
-      info: 'This is the amount of your monthly payment that goes to paying down the principal of your mortgage. Paying this is jsut a transfer of your liquid assets (cash) to illiquid assets (your home value, which is also appreciating).'
-    },
-    ...baseValues.value
-  ]
-})
+const values = computed(() => [
+  {
+    name: 'Principal',
+    value: mortgageStore.monthlyPrincipal,
+    color: emerald['400'],
+    info: 'This is the amount of your monthly payment that goes to paying down the principal of your mortgage. Paying this is jsut a transfer of your liquid assets (cash) to illiquid assets (your home value, which is also appreciating).'
+  },
+  ...baseValues.value
+])
 </script>
 
 <template>
-  <main
-    class="bg-slate-100 2xl:bg-gradient-to-bl 2xl:from-fuchsia-400 2xl:via-cyan-500 2xl:to-emerald-400 2xl:dark:bg-slate-700 dark:bg-slate-700 h-full"
+  <div
+    class="bg-slate-100 2xl:bg-gradient-to-bl 2xl:from-fuchsia-400 2xl:via-cyan-500 2xl:to-emerald-400 2xl:dark:bg-slate-700 dark:bg-slate-700 min-h-full pb-16"
   >
-    <div class="flex flex-col items-center">
+    <main class="flex flex-col items-center">
       <h1 class="font-bold text-3xl py-4 text-white dark:text-slate-100 w-full 2xl:w-8/12">
         🏡 Mortgage & Rent Retirement Calculator
       </h1>
@@ -66,9 +64,9 @@ const values = computed(() => {
         class="w-full 2xl:w-8/12 flex flex-col items-center bg-slate-100 dark:bg-slate-800 dark:text-slate-100 rounded-2xl p-4"
       >
         <h2 class="font-bold text-2xl">Monthly Mortgage Breakdown</h2>
-        <div class="flex lg:flex-row flex-col lg:justify-between items-center w-full">
+        <div class="flex lg:grid flex-col lg:grid-cols-2 items-center w-full">
           <MortgageInput />
-          <div class="flex flex-col w-full items-center">
+          <div class="flex flex-col w-full items-start">
             <PieSum
               title="Monthly"
               :values="values"
@@ -85,6 +83,21 @@ const values = computed(() => {
         </div>
       </div>
       <RetirementSummary class="mt-4" />
-    </div>
-  </main>
+    </main>
+    <footer
+      class="flex items-center w-full flex-col text-sm text-stone-800 dark:text-stone-200 mt-8"
+    >
+      Made with ❤️ by Tyler Higgs
+      <br />
+      <a
+        href="https://github.com/tylerhiggs/mortgage-rent-calculator"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex items-center text-stone-800 hover:font-bold hover:text-stone-900 dark:text-stone-200 dark:hover:text-stone-100 hover:underline transition duration-200"
+      >
+        <img src="@/assets/github-mark.svg" alt="GitHub" class="inline w-5 h-5 align-middle mr-1" />
+        See source code
+      </a>
+    </footer>
+  </div>
 </template>

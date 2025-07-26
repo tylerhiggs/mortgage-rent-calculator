@@ -1,16 +1,11 @@
 <script setup lang="ts">
-import { defineProps, computed } from 'vue'
+import { computed } from 'vue'
 import InfoPopup from './InfoPopup.vue'
 
 const props = defineProps<{
   title: string
   pieTitle?: string
-  values: Array<{
-    name: string
-    value: number
-    color: string
-    info?: string
-  }>
+  values: Array<{ name: string; value: number; color: string; info?: string }>
   info?: string
 }>()
 
@@ -19,23 +14,12 @@ const total = computed(() => {
 })
 
 const percentages = computed(() => {
-  return props.values.reduce(
-    (acc, cur, index) => {
-      return [
-        ...acc,
-        {
-          ...cur,
-          percentage: (index ? acc[index - 1].percentage : 0) + cur.value / total.value
-        }
-      ]
-    },
-    new Array<{
-      name: string
-      value: number
-      color: string
-      percentage: number
-    }>()
-  )
+  return props.values.reduce((acc, cur, index) => {
+    return [
+      ...acc,
+      { ...cur, percentage: (index ? acc[index - 1].percentage : 0) + cur.value / total.value }
+    ]
+  }, new Array<{ name: string; value: number; color: string; percentage: number }>())
 })
 
 const conicGradientString = computed(() => {
@@ -68,7 +52,7 @@ const conicGradientString = computed(() => {
       </div>
       <div class="flex flex-col sm:w-80 w-full mr-4">
         <div
-          v-for="value in props.values.filter((value) => value.value > 0)"
+          v-for="value in props.values.filter((value) => value.value !== 0)"
           :key="value.name"
           class="flex items-center justify-between w-full my-1 py-1 rounded-lg text-white px-2 group"
           :style="{ backgroundColor: value.color }"

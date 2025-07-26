@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { computed, shallowRef } from 'vue'
 
 export enum Term {
   Thirty = 30,
@@ -9,13 +9,13 @@ export enum Term {
 const DEFAULT_HOME_VALUE = 200000
 
 export const useMortgageStore = defineStore('mortgage', () => {
-  const homeValue = ref(DEFAULT_HOME_VALUE)
+  const homeValue = shallowRef(DEFAULT_HOME_VALUE)
   /**
    * The interest rate, as a decimal.
    */
-  const rate = ref(0.05)
-  const term = ref(Term.Fifteen)
-  const _downPayment = ref(DEFAULT_HOME_VALUE * 0.2)
+  const rate = shallowRef(0.05)
+  const term = shallowRef(Term.Fifteen)
+  const _downPayment = shallowRef(DEFAULT_HOME_VALUE * 0.2)
   const principal = computed(() => homeValue.value - _downPayment.value)
 
   const downPayment = computed(() => _downPayment.value)
@@ -30,13 +30,30 @@ export const useMortgageStore = defineStore('mortgage', () => {
   /**
    * Annual rate of property tax, as a decimal.
    */
-  const propertyTaxRate = ref(0.011)
+  const propertyTaxRate = shallowRef(0.011)
   /**
    * Annual PMI rate, as a decimal.
    */
-  const pmiRate = ref(0.01)
+  const pmiRate = shallowRef(0.01)
 
+  /**
+   * monthly principal and interest payment, computed using the formula:
+   * ```math
+   * M = P \frac{r(1 + r)^n}{(1 + r)^n - 1}
+   * ```
+   * where:
+   * - `M` is the monthly payment
+   * - `P` is the principal loan amount
+   * - `r` is the monthly interest rate (annual rate / 12)
+   * - `n` is the number of payments (loan term in months)
+   */
   const monthlyPrincipalAndInterest = computed(() => {
+    if (principal.value === 0) {
+      return 0
+    }
+    if (rate.value === 0) {
+      return principal.value / term.value / 12
+    }
     const p = principal.value
     const r = rate.value / 12
     const n = term.value * 12
@@ -64,9 +81,9 @@ export const useMortgageStore = defineStore('mortgage', () => {
     return downPaymentPct.value < 0.2 ? (principal.value * pmiRate.value) / 12 : 0
   })
 
-  const monthlyHomeInsurance = ref(125)
+  const monthlyHomeInsurance = shallowRef(125)
 
-  const monthlyHOA = ref(0)
+  const monthlyHOA = shallowRef(0)
 
   const monthlyPayment = computed(() => {
     return (

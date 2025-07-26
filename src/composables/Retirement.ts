@@ -1,36 +1,36 @@
-import { ref, computed } from 'vue'
+import { computed, shallowRef } from 'vue'
 import { useMortgageStore } from '@/stores/MortgageStore'
 
 export function useRetirement() {
   const mortgageStore = useMortgageStore()
 
-  const currentAge = ref(24)
-  const retirementAge = ref(65)
+  const currentAge = shallowRef(24)
+  const retirementAge = shallowRef(65)
 
   const yearsToRetirement = computed(() => {
     return retirementAge.value - currentAge.value
   })
 
-  const monthlyContribution = ref(300)
-  const currentSavings = ref(10000)
-  const interestRate = ref(0.08)
+  const monthlyContribution = shallowRef(300)
+  const currentSavings = shallowRef(10000)
+  const interestRate = shallowRef(0.08)
 
   /**
    * monthly rent in dollars
    */
-  const rent = ref(1200)
+  const rent = shallowRef(1200)
 
   /**
    * As percentage
    */
-  const annualRentIncrease = ref(0.03)
+  const annualRentIncrease = shallowRef(0.03)
 
   /**
    * As percentage
    */
-  const annualHomeAppreciation = ref(0.05)
+  const annualHomeAppreciation = shallowRef(0.05)
 
-  const yearsToHomePurchase = ref<number | undefined>()
+  const yearsToHomePurchase = shallowRef<number | undefined>()
 
   const rentIsHigherThanMortgage = computed(() => {
     return rent.value > mortgageStore.monthlyPayment
@@ -110,12 +110,7 @@ export function useRetirement() {
       totalContribution
     )
     const total = fromAfterMortgagePayments + fromInitial + fromContributions
-    return {
-      fromInitial,
-      fromAfterMortgagePayments,
-      fromContributions,
-      total
-    }
+    return { fromInitial, fromAfterMortgagePayments, fromContributions, total }
   })
 
   /**
@@ -148,12 +143,7 @@ export function useRetirement() {
       totalContribution
     )
     const total = fromRegularSavings + fromWouldHaveBeenDownPayment + fromContributions
-    return {
-      fromRegularSavings,
-      fromWouldHaveBeenDownPayment,
-      fromContributions,
-      total
-    }
+    return { fromRegularSavings, fromWouldHaveBeenDownPayment, fromContributions, total }
   })
 
   const retirementHomeValue = computed(() => {

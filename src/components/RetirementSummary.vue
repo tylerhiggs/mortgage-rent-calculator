@@ -116,7 +116,7 @@ const rentRetirementPercentages = computed(() => [
     class="2xl:w-8/12 w-full flex flex-col items-center bg-slate-100 dark:bg-slate-800 dark:text-slate-100 rounded-2xl p-4"
   >
     <h2 class="font-bold text-2xl">Retirement Breakdown</h2>
-    <div class="flex lg:flex-row flex-col lg:justify-around items-center w-full">
+    <div class="flex lg:grid flex-col lg:grid-cols-2 items-center w-full">
       <div class="flex flex-col w-full">
         <div class="flex sm:flex-row flex-col">
           <NumberInput
@@ -181,7 +181,7 @@ const rentRetirementPercentages = computed(() => [
           info="The annual appreciation of your home. Historically, this is somewhere between 3 and 5 percent."
         />
       </div>
-      <div class="flex flex-col mt-4 w-full sm:w-auto">
+      <div class="flex flex-col items-start mt-4 w-full sm:w-auto">
         <h3 class="font-bold text-xl">Retirement Assets if you...</h3>
         <PieSum
           title="Purchase a Home"
